@@ -52,8 +52,7 @@ function handleNext() {
 }
 
 function raytrace(workUnit) {
-  const buffer = rt.render(workUnit.message.stripId);
-  workUnit.message.buffer = buffer;
+  workUnit.message.buffer = rt.render(workUnit.message.stripId);
   self.postMessage(workUnit.toObject());
   handleNext();
 }
