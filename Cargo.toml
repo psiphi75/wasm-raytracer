@@ -1,0 +1,33 @@
+[package]
+name = "rust_web_rtrt"
+version = "0.1.0"
+authors = ["Simon M. Werner <simonwerner@gmail.com>"]
+readme = "README.md"
+license = "Apache-2.0"
+edition = "2018"
+
+[profile.release]
+# remove debug symbols:
+debug = false
+# enable link time optimisations:
+lto = true
+# optimise for size (less aggressive than z):
+opt-level = 's'
+
+[lib]
+path = "src/lib.rs"
+crate-type = ["cdylib"]
+
+[[bin]]
+name = "rt"
+path = "src/main.rs"
+
+[[bin]]
+name = "bench"
+path = "src/bench.rs"
+
+[dependencies]
+# This should match the version of
+# wasm-bindgen-cli that you install:
+wasm-bindgen = "0.2"
+time = "0.1.40"

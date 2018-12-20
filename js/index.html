@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <style>
+      .inline-block-child {
+        display: inline-block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="parent">
+      <div class="child inline-block-child"><button id="run_button">Play / Pause</button></div>
+      <div class="child inline-block-child">
+        <select id="selectRenderMethod">
+          <option value="./JSRayTraceWorker.js">JavaScript</option>
+          <option value="./WasmRayTraceWorker.js">WASM (Rust)</option>
+        </select>
+      </div>
+    </div>
+
+    <canvas id="canvas"></canvas>
+
+    <script src="common.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

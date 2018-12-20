@@ -1,0 +1,12 @@
+{
+  "saveAndRun": {
+    "commands": [
+      {
+        "match": ".*",
+        "cmd": "echo ${fileBasename}/build.sh",
+        "useShortcut": false,
+        "silent": false
+      }
+    ]
+  }
+}
