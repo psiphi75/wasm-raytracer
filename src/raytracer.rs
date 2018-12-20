@@ -45,7 +45,6 @@ pub struct RayTracer {
   depth: i32,
   scene: Scene,
   origin_pix: Vec<Vec<OriginPixel>>,
-  return_img: Vec<u8>,
   strip_map: [usize; NUM_STRIPS],
 }
 
@@ -199,10 +198,8 @@ impl RayTracer {
 
     RayTracer {
       depth,
-      // physics: Physics {}, // set up the Physics
       scene,
       origin_pix,
-      return_img: vec![],
       strip_map,
     }
   }
@@ -234,13 +231,8 @@ impl RayTracer {
   /**
    * Render the scene.  self will update the data object that was provided.
    */
-  pub fn render(&mut self, strip_id: u32) -> *const u8 {
+  pub fn render(&mut self, strip_id: u32, strip_data: &mut [u8]) {
     // The "main loop"
-
-    // Every 4th byte is 0xFF, or not transparent
-    self.return_img = (0..(NUM_COLS * SQUARE_SIZE * 4))
-      .map(|i| if i % 4 == 3 { 0xff } else { 0x00 })
-      .collect();
 
     let mut col = 0;
     let row = self.strip_map[strip_id as usize];
@@ -333,10 +325,10 @@ impl RayTracer {
           }
 
           let pnt = (r * NUM_COLS + c + col) * 4;
-          self.return_img[pnt] = static_colour.x.round() as u8;
-          self.return_img[pnt + 1] = static_colour.y.round() as u8;
-          self.return_img[pnt + 2] = static_colour.z.round() as u8;
-          // self.return_img[pnt + 3] = 255u8;
+          strip_data[pnt] = static_colour.x as u8;
+          strip_data[pnt + 1] = static_colour.y as u8;
+          strip_data[pnt + 2] = static_colour.z as u8;
+          strip_data[pnt + 3] = 255u8;
         }
       }
 
@@ -344,8 +336,6 @@ impl RayTracer {
       col_rhs += SQUARE_SIZE;
       col += SQUARE_SIZE;
     }
-
-    self.return_img.as_ptr()
   }
 
   /**

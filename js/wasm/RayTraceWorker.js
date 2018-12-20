@@ -62,15 +62,9 @@ rayTracer('./rust_web_rtrt_bg.wasm').then(
     }
 
     function raytrace(workUnit) {
-      const cellsPtr = rt.render(workUnit.message.stripId);
-      // this is cloned as it is posted back, from the worker so we don't
-      // have to worry about the WASM memory changing under our feet:
-      workUnit.message.buffer = new Uint8ClampedArray(
-        wasm.memory.buffer,
-        cellsPtr,
-        constants.SQUARE_SIZE * constants.WIDTH * 4
-      );
-      self.postMessage(workUnit.toObject());
+      workUnit.message.buffer = new Uint8Array(constants.SQUARE_SIZE * constants.WIDTH * 4);
+      rt.render(workUnit.message.stripId, workUnit.message.buffer);
+      self.postMessage(workUnit.toObject(), [workUnit.message.buffer.buffer]);
       handleNext();
     }
 

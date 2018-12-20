@@ -38,10 +38,11 @@ fn main() {
   let start = PreciseTime::now();
   // whatever you want to do
   let mut rt = RayTracer::new(5);
+  let mut strip_data = vec![0; NUM_COLS * SQUARE_SIZE];
   const NUM_FRAMES: usize = 20;
   for _ in 0..NUM_FRAMES {
     for i in 0..NUM_STRIPS {
-      rt.render(i as u32);
+      rt.render(i as u32, &mut strip_data);
     }
   }
   let end = PreciseTime::now();

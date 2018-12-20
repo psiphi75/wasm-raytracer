@@ -30,10 +30,12 @@ mod physics;
 pub mod raytracer;
 pub mod vector;
 
+use crate::constants::{NUM_COLS, SQUARE_SIZE};
 use crate::raytracer::RayTracer;
 
 fn main() {
   let mut rt = RayTracer::new(5);
   rt.increment();
-  rt.render(110);
+  let mut strip_data = vec![0; NUM_COLS * SQUARE_SIZE];
+  rt.render(110, &mut strip_data);
 }
