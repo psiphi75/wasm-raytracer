@@ -3,6 +3,8 @@
 A toy program that implements a simple ray tracer. There is a WASM Rust
 component and a JavaScript component.
 
+A live sample can be [found here](https://psiphi75.github.io/wasm-raytracer/).
+
 # Building
 
 To build the project just run the following. This will put everything
