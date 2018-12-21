@@ -31,8 +31,8 @@ use crate::objects::Object;
 pub struct Physics {}
 
 impl Physics {
-  pub fn apply_forces(obj: &mut Object) {
-    let angle = 5.0 / 180.0 * f64::consts::PI;
+  pub fn apply_forces(obj: &mut Object, mut angle: f64) {
+    angle *= f64::consts::PI / 180.0;
     let sin_t = f64::sin(angle);
     let cos_t = f64::cos(angle);
 

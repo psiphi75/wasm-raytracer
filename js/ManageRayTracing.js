@@ -23,11 +23,15 @@
 
 'use strict';
 
+/* globals performance */
+
 const Abrupt = require('./lib/Abrupt.js');
+const constants = require('./common/Constants');
 
 function ManageRayTracing(numWorkers, isPaused, numStrips, depth, images, renderCallback, workerUri) {
   let activeImage = 0;
-  const abrupt = new Abrupt({ maxDiffWorkId: 30, maxConcurrent: 8 });
+  const abrupt = new Abrupt({ maxDiffWorkId: 30, maxConcurrent: constants.NUM_WORKERS });
+  const rotationSpeed = 360 / 10; // Degrees per second
 
   const createWorkUnitsFn = imgId =>
     [...Array(numStrips).keys()].reverse().map(stripId => ({
@@ -41,6 +45,7 @@ function ManageRayTracing(numWorkers, isPaused, numStrips, depth, images, render
   };
   const incWorkUnit = {
     type: 'inc',
+    angle: 0.0,
   };
 
   // Load the workers
@@ -64,8 +69,16 @@ function ManageRayTracing(numWorkers, isPaused, numStrips, depth, images, render
     abrupt.addWorkUnits(renderWorkUnits[imgId]);
   }
 
+  let startTime = performance.now();
   function next() {
     if (isPaused) return;
+
+    const endTime = performance.now();
+    const elapsedTimeSeconds = (endTime - startTime) / 1000;
+    startTime = endTime;
+    incWorkUnit.angle = rotationSpeed * elapsedTimeSeconds;
+    console.log(incWorkUnit.angle);
+
     startRenderWork(activeImage === 0 ? 1 : 0);
     renderCallback(activeImage);
     activeImage = activeImage === 0 ? 1 : 0;

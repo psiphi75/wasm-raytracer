@@ -200,8 +200,8 @@ function RayTracer(cols, rows) {
 RayTracer.prototype.getNumStrips = function() {
   return this.strips.length;
 };
-RayTracer.prototype.increment = function() {
-  this.physics.applyForces();
+RayTracer.prototype.increment = function(angle) {
+  this.physics.applyForces(angle);
 };
 
 /**

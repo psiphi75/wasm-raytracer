@@ -69,7 +69,7 @@ rayTracer('./rust_web_rtrt_bg.wasm').then(
     }
 
     function increment(workUnit) {
-      rt.increment();
+      rt.increment(workUnit.message.angle);
       workUnit.message = {
         type: 'inc_done',
       };

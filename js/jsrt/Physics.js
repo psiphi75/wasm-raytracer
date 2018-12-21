@@ -43,9 +43,9 @@ Physics.prototype.addObject = function(obj) {
   obj.velocity = new Vector(0, 0, 0);
 };
 
-Physics.prototype.applyForces = function() {
+Physics.prototype.applyForces = function(angle) {
   for (let i = 0; i < this.obj_list.length; i += 1) {
-    rotate3d(this.obj_list[i].c, (5 / 180) * Math.PI);
+    rotate3d(this.obj_list[i].c, (angle * Math.PI) / 180.0);
   }
 
   function rotate3d(p, angle) {

@@ -58,7 +58,7 @@ function raytrace(workUnit) {
 }
 
 function increment(workUnit) {
-  rt.increment();
+  rt.increment(workUnit.message.angle);
   workUnit.message = {
     type: 'inc_done',
   };

@@ -220,10 +220,10 @@ impl RayTracer {
     NUM_STRIPS as u32
   }
 
-  pub fn increment(&mut self) {
+  pub fn increment(&mut self, angle: f64) {
     for obj in &mut self.scene.objs {
       if obj.typ == ObjectType::Sphere {
-        crate::physics::Physics::apply_forces(obj);
+        crate::physics::Physics::apply_forces(obj, angle);
       }
     }
   }
