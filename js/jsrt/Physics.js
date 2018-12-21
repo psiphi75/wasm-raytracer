@@ -23,39 +23,32 @@
 
 'use strict';
 
-const Vector = require('../common/Vector');
-
 /**
  * A **very** simple physics implimentation.
- * @param groundVector
- * @param options
  * @constructor
  */
-function Physics(groundVector, options) {
+function Physics() {
   this.obj_list = [];
-  this.gravity = new Vector(0.0, -0.00981, 0.0);
-  this.ground_vector = groundVector;
-  this.options = options;
 }
 
-Physics.prototype.addObject = function(obj) {
+Physics.prototype.addObject = function addObject(obj) {
   this.obj_list[this.obj_list.length] = obj;
-  obj.velocity = new Vector(0, 0, 0);
 };
 
-Physics.prototype.applyForces = function(angle) {
+function rotateOnPlane(p, angle) {
+  const sinT = Math.sin(angle);
+  const cosT = Math.cos(angle);
+
+  const x = p.x;
+  const z = p.z;
+  p.x = x * cosT - z * sinT;
+  p.z = z * cosT + x * sinT;
+}
+
+Physics.prototype.applyForces = function applyForces(angle) {
+  angle *= Math.PI / 180.0;
   for (let i = 0; i < this.obj_list.length; i += 1) {
-    rotate3d(this.obj_list[i].c, (angle * Math.PI) / 180.0);
-  }
-
-  function rotate3d(p, angle) {
-    const sinT = Math.sin(angle);
-    const cosT = Math.cos(angle);
-
-    const x = p.x;
-    const z = p.z;
-    p.x = x * cosT - z * sinT;
-    p.z = z * cosT + x * sinT;
+    rotateOnPlane(this.obj_list[i].c, angle);
   }
 };
 

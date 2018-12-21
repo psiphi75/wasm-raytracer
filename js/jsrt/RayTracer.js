@@ -79,9 +79,7 @@ function RayTracer(cols, rows) {
   /**************************************/
 
   // set up the Physics
-  this.physics = new Physics(GROUND_PLANE, {
-    bouncing: false,
-  });
+  this.physics = new Physics();
 
   // Init the eye and scene
   const eye = new Objects.Eye(new Vector(0.0, 2, -15.0), 0.75, 0.75, 2.0);
@@ -197,10 +195,10 @@ function RayTracer(cols, rows) {
   }
 }
 
-RayTracer.prototype.getNumStrips = function() {
+RayTracer.prototype.getNumStrips = function getNumStrips() {
   return this.strips.length;
 };
-RayTracer.prototype.increment = function(angle) {
+RayTracer.prototype.increment = function increment(angle) {
   this.physics.applyForces(angle);
 };
 
@@ -363,12 +361,10 @@ RayTracer.prototype.render = function render(stripID) {
     const N = obj.get_norm(pi);
     const dotLN = L.dot(N);
     const dotVN = ray.direction.dot(N);
-    if (obj.diff > 0) {
-      if (dotLN > 0) {
-        const diff = dotLN * obj.diff * shade;
-        // add diffuse component to ray color
-        colour.addInplace(light.col.product(obj.col).scale(diff));
-      }
+    if (obj.diff > 0 && dotLN > 0) {
+      const diff = dotLN * obj.diff * shade;
+      // add diffuse component to ray color
+      colour.addInplace(light.col.product(obj.col).scale(diff));
     }
 
     // determine specular component
